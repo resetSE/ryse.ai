@@ -6,7 +6,8 @@ import asyncio
 import youtube_dl
 import os
 
-initial_extensions = ['cogs.admin']
+initial_extensions = ['cogs.admin',
+                      'cogs.help']
 
 bot = commands.Bot(command_prefix = ".",help_command=None)
 
