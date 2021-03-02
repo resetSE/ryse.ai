@@ -49,13 +49,13 @@ class Greetings(commands.Cog):
                 print(f"'{user.name}#{user.discriminator}' was unbanned from '{guild}'.")
 
     @commands.command()
-    @commands.has_permissions(is_owner = True)
+    @commands.has_permissions(administrator = True)
     async def load(self, ctx, name: str):
         self.bot.load_extension(f"cogs.{name}")
         await ctx.send(f"Loaded extension **{name}.py**")
 
     @commands.command()
-    @commands.has_permissions(is_owner = True)
+    @commands.has_permissions(administrator = True)
     async def unload(self, ctx, name: str):
         self.bot.unload_extension(f"cogs.{name}")
         await ctx.send(f"Unloaded extension **{name}.py**")
