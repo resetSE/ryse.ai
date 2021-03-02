@@ -22,4 +22,4 @@ async def on_ready():
     print(f'Successfully logged in and booted...!')
 
 
-bot.run('ODE1ODMzMDg2MzMwNjY3MDA4.YDyJxQ.kK9ErtcsAZxpa_5HIigy_4RUbgE')
+bot.run('YOUR-TOKEN-HERE')
