@@ -9,7 +9,7 @@ class Help(commands.Cog):
 
     @commands.command()
     async def help(self, ctx):
-        pEmbed = Embed(color=0xff3030)
+        pEmbed = Embed(color=0x3030ff)
         pEmbed.add_field(name="The prefix is .", value="Start your commands to this bot with a period!", inline=False)
         aEmbed = Embed(title="Admin commands", color=0xff3030)
         aEmbed.add_field(name=".clear", value="Clear x amount of messages. X defaults to 5", inline=False)
