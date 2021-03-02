@@ -63,11 +63,15 @@ class Admin(commands.Cog):
             for channel in guild.channels:
                 await channel.set_permissions(mutedRole, speak=False, send_messages=False, read_message_history=True, read_messages=True)
         
-        embed = discord.Embed(title="Muted", description=f"{member.mention} was muted ", colour=discord.Colour.light_gray())
-        embed.add_field(name="Reason: ", value=reason, inline=False)
-        await ctx.send(embed=embed)
+        sEmbed = discord.Embed(title="Muted", description=f"{member.mention} was muted ", colour=discord.Colour.light_gray())
+        sEmbed.add_field(name="Reason: ", value=reason, inline=False)
+
+        dEmbed = discord.Embed(title="Muted", description=f"You were muted in {guild.name}", colour=discord.Colour.light_gray())
+        dEmbed.add_field(name="Reason: ", value=reason, inline=False)
+
+        await ctx.send(embed=sEmbed)
         await member.add_roles(mutedRole, reason=reason)
-        await member.send(f"You've been muted in '{guild.name}' for reason: '{reason}'")
+        await member.send(embed=dEmbed)
         print(f"{member} has been muted in '{guild.name}' for reason: '{reason}'")
 
 
@@ -78,9 +82,10 @@ class Admin(commands.Cog):
         mutedRole = discord.utils.get(guild.roles, name="Muted")
 
         await member.remove_roles(mutedRole)
-        await member.send(f"You have been unmuted in: - {guild.name}")
-        embed = discord.Embed(title="Unmuted", description=f"{member.mention} was unmuted ",colour=discord.Colour.light_gray())
-        await ctx.send(embed=embed)
+        sEmbed = discord.Embed(title="Unmuted", description=f"{member.mention} was unmuted ",colour=discord.Colour.light_gray())
+        dEmbed = discord.Embed(title="Unmuted", description=f"You were unmuted in {guild.name}",colour=discord.Colour.light_gray())
+        await ctx.send(embed=sEmbed)
+        await member.send(embed=dEmbed)
         print(f"{member} has been unmuted in '{guild.name}'")
 
     @commands.command()
