@@ -16,8 +16,8 @@ class Help(commands.Cog):
         aEmbed.add_field(name=".kick", value="Kick the specified user.", inline=False)
         aEmbed.add_field(name=".ban", value="Ban the specified user.", inline=False)
         aEmbed.add_field(name=".unban", value="Unban the specified user. Takes in user IDs. Requires developer mode to access user ID.", inline=False)
-        #aEmbed.add_field(name=".mute", value="Mute the specified member.", inline=False)
-        #aEmbed.add_field(name=".unmute", value="Unmute the specified member.", inline=False)
+        aEmbed.add_field(name=".mute", value="Mute the specified member.", inline=False)
+        aEmbed.add_field(name=".unmute", value="Unmute the specified member.", inline=False)
 
         #hEmbed = Embed(title="User commands", color=0x30ffcf)
         #hEmbed.add_field(name=".play", value="Plays a YouTube URL", inline=False)
