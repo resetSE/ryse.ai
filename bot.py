@@ -2,15 +2,23 @@ import discord
 from discord import Embed
 from discord.ext import commands
 from discord.utils import get
+import logging
 import asyncio
-import youtube_dl
+import json
 import os
 
+cwd = os.getcwd()
+print(f"Current directory: {cwd}")
 initial_extensions = ['cogs.admin',
                       'cogs.help',
                       'cogs.music']
 
-bot = commands.Bot(command_prefix = ".",help_command=None)
+
+token_file = json.load(open(cwd+'config/token.json'))
+bot = commands.Bot(command_prefix = ".",help_command=None,case_insensitive=True)
+bot.config_token = token_file['token']
+
+logging.basicConfig(level=logging.INFO)
 
 if __name__ == "__main__":
     for extension in initial_extensions:
@@ -24,4 +32,4 @@ async def on_ready():
     print(f'Successfully logged in and booted...!')
 
 
-bot.run('YOUR-TOKEN-HERE')
+bot.run(bot.config_token)
