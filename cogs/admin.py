@@ -23,7 +23,7 @@ class Admin(commands.Cog):
         guild = ctx.guild
 
         await member.ban(reason=reason)
-        await ctx.send(f"Done! {member} has been banned for reason: '{reason}'")
+        await ctx.send(f"{member} has been banned for reason: '{reason}'")
         print(f"\n{member} was banned from '{guild.name}' for reason: '{reason}'\n")
 
     @commands.command(aliases=['k'])
@@ -32,7 +32,7 @@ class Admin(commands.Cog):
         guild = ctx.guild
 
         await member.kick(reason=reason)
-        await ctx.send(f"Done! {member} has been kicked for reason: '{reason}'")
+        await ctx.send(f"{member} has been kicked for reason: '{reason}'")
         print(f"\n{member} was kicked from '{guild.name}' for reason: '{reason}'\n")
 
     @commands.command(aliases=['unb'])
@@ -48,7 +48,7 @@ class Admin(commands.Cog):
             
             if (user.name, user.discriminator) == (member_name, member_discriminator):
                 await ctx.guild.unban(user)
-                await ctx.send(f"Done! Unbanned {user.name}#{user.discriminator}")
+                await ctx.send(f"Unbanned {user.name}#{user.discriminator}")
                 print(f"'{user.name}#{user.discriminator}' was unbanned from '{guild}'.")
 
     @commands.command(aliases=['m'])
