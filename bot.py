@@ -9,9 +9,8 @@ import os
 
 cwd = os.getcwd()
 print(f"Current directory: {cwd}")
-initial_extensions = ['cogs.admin',
-                      'cogs.help',
-                      'cogs.music']
+initial_extensions = ['cogs.help',
+                      'cogs.admin']
 
 
 token_file = json.load(open(cwd+'/config/token.json'))
@@ -29,7 +28,10 @@ async def on_ready():
     print(f'\n\nLogging in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
     
     await bot.change_presence(activity=discord.Game('Type .help'))
-    print(f'Successfully logged in and booted...!')
+    print(f'Login successful! {bot.user.name} is up and running!')
 
-
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CheckFailure):
+        await ctx.send("No permission!")
 bot.run(bot.config_token)
