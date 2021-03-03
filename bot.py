@@ -7,7 +7,8 @@ import youtube_dl
 import os
 
 initial_extensions = ['cogs.admin',
-                      'cogs.help']
+                      'cogs.help',
+                      'cogs.music']
 
 bot = commands.Bot(command_prefix = ".",help_command=None)
 
