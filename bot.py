@@ -14,11 +14,11 @@ initial_extensions = ['cogs.admin',
                       'cogs.music']
 
 
-token_file = json.load(open(cwd+'config/token.json'))
+token_file = json.load(open(cwd+'/config/token.json'))
 bot = commands.Bot(command_prefix = ".",help_command=None,case_insensitive=True)
 bot.config_token = token_file['token']
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO) #FOR DEBUGGING PURPOSES ONLY - COMMENT OUT IF YOU NEED CLEAN OUTPUT
 
 if __name__ == "__main__":
     for extension in initial_extensions:
