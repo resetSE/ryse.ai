@@ -2,7 +2,11 @@ import discord
 from discord import Embed
 from discord.ext import commands
 from discord.utils import get
+import json
+import os
 
+
+cwd = os.getcwd()
 
 
 class Admin(commands.Cog):
@@ -206,12 +210,33 @@ class Admin(commands.Cog):
         await member.send(embed=dEmbed)
         print(f"{member} has been unmuted in '{guild.name}'")
 
+
+
+    @commands.command(aliases=['pref', 'pr'])
+    async def prefix(self, ctx, prefix):
+        with open(cwd+'/config/prefixes.json', 'r') as f:
+            prefixes = json.load(f)
+        prefixes[str(ctx.guild.id)] = prefix
+        with open(cwd+'/config/prefixes.json', 'w') as f:
+            json.dump(prefixes, f, indent=4)
+        
+        sEmbed = discord.Embed(
+            title="Prefix changed",
+            description=f"{prefix} is the new prefix",
+            colour=discord.Colour.green()
+        )
+        sEmbed.set_author(
+            name="Success",
+            icon_url="https://i.ibb.co/JCJzkh2/iconfinder-checkmark-24-103184.png" #image: Iconfinder.com
+        )
+        
+        await ctx.send(embed=sEmbed)
     @commands.command()
     @commands.has_permissions(administrator = True)
     async def load(self, ctx, name: str):
         sEmbed = discord.Embed(
             title="Loaded",
-            description=f"**{name}** was unloaded",
+            description=f"**{name}** was loaded",
             colour=discord.Colour.green()
         )
         sEmbed.set_author(
