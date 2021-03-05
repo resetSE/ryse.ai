@@ -26,7 +26,7 @@ class Admin(commands.Cog):
         sEmbed = discord.Embed(
             title="Kicked", 
             description=f"{member} was kicked ", 
-            colour=discord.Colour.red()
+            colour=discord.Colour.light_gray()
         )
         sEmbed.add_field(
             name="Reason: ", 
@@ -34,14 +34,14 @@ class Admin(commands.Cog):
             inline=False
         )
         sEmbed.set_author(
-            name="ryse.AI",
-            icon_url="https://cdn.discordapp.com/avatars/815833086330667008/446c182ff64ab5eac646c2bb534b3e58.png"
+            name=".kick",
+            icon_url="https://i.ibb.co/TR2hdDW/kick.png" #image: Flaticon.com
         )
 
         dEmbed = discord.Embed(
             title="Kicked", 
             description=f"You were kicked from {guild.name}", 
-            colour=discord.Colour.red()
+            colour=discord.Colour.light_gray()
         )
         dEmbed.add_field(
             name="Reason: ", 
@@ -49,8 +49,8 @@ class Admin(commands.Cog):
             inline=False
         )
         dEmbed.set_author(
-            name="ryse.AI",
-            icon_url="https://cdn.discordapp.com/avatars/815833086330667008/446c182ff64ab5eac646c2bb534b3e58.png"
+            name=".kick",
+            icon_url="https://i.ibb.co/TR2hdDW/kick.png" #image: Flaticon.com
         )
         await member.send(embed=dEmbed)
         await member.kick(reason=reason)
@@ -65,7 +65,7 @@ class Admin(commands.Cog):
         sEmbed = discord.Embed(
             title="Banned", 
             description=f"{member} was banned ", 
-            colour=discord.Colour.red()
+            colour=discord.Colour.default()
         )
         sEmbed.add_field(
             name="Reason: ", 
@@ -73,14 +73,14 @@ class Admin(commands.Cog):
             inline=False
         )
         sEmbed.set_author(
-            name="ryse.AI",
-            icon_url="https://cdn.discordapp.com/avatars/815833086330667008/446c182ff64ab5eac646c2bb534b3e58.png"
+            name=".ban",
+            icon_url="https://i.ibb.co/qp9dX8R/Nice-Png-judge-png-2240287.png" #image: Nicepng.com
         )
 
         dEmbed = discord.Embed(
             title="Banned", 
             description=f"You were banned from {guild.name}", 
-            colour=discord.Colour.red()
+            colour=discord.Colour.default()
         )
         dEmbed.add_field(
             name="Reason: ", 
@@ -88,9 +88,10 @@ class Admin(commands.Cog):
             inline=False
         )
         dEmbed.set_author(
-            name="ryse.AI",
-            icon_url="https://cdn.discordapp.com/avatars/815833086330667008/446c182ff64ab5eac646c2bb534b3e58.png"
+            name=".ban",
+            icon_url="https://i.ibb.co/qp9dX8R/Nice-Png-judge-png-2240287.png" #image: Nicepng.com
         )
+
         
         await ctx.send(embed=sEmbed)
         await member.send(embed=dEmbed)
@@ -107,11 +108,22 @@ class Admin(commands.Cog):
             user = ban_entry.user
             if (user.name, user.discriminator) == (member_name, member_discriminator):
                 await ctx.guild.unban(user)
+                
                 sEmbed = discord.Embed(
-                title="Unbanned",
+                    title="Unbanned",
                     description=f"{user.mention} was unbanned",
-                    colour=discord.Colour.red()
+                    colour=discord.Colour.teal()
                 )
+                
+                sEmbed.add_field(
+                    name="Issuer: ",
+                    value=ctx.message.author
+                )
+                
+                sEmbed.set_author(
+                    name=".unban",
+                    icon_url="https://i.ibb.co/dcsrW13/iconfinder-undo-308948.png" #image: Iconfinder.com
+        )
                 await ctx.channel.send(embed=sEmbed)
                 print(f"\n{member} was unbanned from {ctx.guild.name}.\n")
     @commands.command(aliases=['m'])
@@ -129,7 +141,7 @@ class Admin(commands.Cog):
         sEmbed = discord.Embed(
             title="Muted", 
             description=f"{member.mention} was muted ", 
-            colour=discord.Colour.red()
+            colour=discord.Colour.teal()
         )
         sEmbed.add_field(
             name="Reason: ", 
@@ -137,14 +149,14 @@ class Admin(commands.Cog):
             inline=False
         )
         sEmbed.set_author(
-            name="ryse.AI",
-            icon_url="https://cdn.discordapp.com/avatars/815833086330667008/446c182ff64ab5eac646c2bb534b3e58.png"
+            name=".mute",
+            icon_url="https://i.ibb.co/7bV1JLF/Mute-Icon.png" #image: Tehdog, CC0, via commons.wikimedia.org
         )
 
         dEmbed = discord.Embed(
             title="Muted", 
             description=f"You were muted in {guild.name}", 
-            colour=discord.Colour.red()
+            colour=discord.Colour.teal()
         )
         dEmbed.add_field(
             name="Reason: ", 
@@ -152,8 +164,8 @@ class Admin(commands.Cog):
             inline=False
         )
         dEmbed.set_author(
-            name="ryse.AI",
-            icon_url="https://cdn.discordapp.com/avatars/815833086330667008/446c182ff64ab5eac646c2bb534b3e58.png"
+            name=".mute",
+            icon_url="https://i.ibb.co/7bV1JLF/Mute-Icon.png" #image: Tehdog, CC0, via commons.wikimedia.org
         )
 
         await ctx.send(embed=sEmbed)
@@ -173,21 +185,21 @@ class Admin(commands.Cog):
         sEmbed = discord.Embed(
             title="Unmuted", 
             description=f"{member.mention} was unmuted ",
-            colour=discord.Colour.red()
+            colour=discord.Colour.teal()
         )
         sEmbed.set_author(
-            name="ryse.AI",
-            icon_url="https://cdn.discordapp.com/avatars/815833086330667008/446c182ff64ab5eac646c2bb534b3e58.png"
+            name=".unmute",
+            icon_url="https://i.ibb.co/dcsrW13/iconfinder-undo-308948.png" #image: Iconfinder.com
         )
         
         dEmbed = discord.Embed(
             title="Unmuted",
             description=f"You were unmuted in {guild.name}",
-            colour=discord.Colour.red()
+            colour=discord.Colour.teal()
         )
         dEmbed.set_author(
-            name="ryse.AI",
-            icon_url="https://cdn.discordapp.com/avatars/815833086330667008/446c182ff64ab5eac646c2bb534b3e58.png"
+            name=".unmute",
+            icon_url="https://i.ibb.co/dcsrW13/iconfinder-undo-308948.png" #image: Iconfinder.com
         )
         
         await ctx.send(embed=sEmbed)
@@ -197,14 +209,46 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator = True)
     async def load(self, ctx, name: str):
+        sEmbed = discord.Embed(
+            title="Loaded",
+            description=f"**{name}** was unloaded",
+            colour=discord.Colour.green()
+        )
+        sEmbed.set_author(
+            name="Success",
+            icon_url="https://i.ibb.co/JCJzkh2/iconfinder-checkmark-24-103184.png" #image: Iconfinder.com
+        )
         self.bot.load_extension(f"cogs.{name}")
-        await ctx.send(f"Loaded extension **{name}.py**")
+        await ctx.send(embed=sEmbed)
 
     @commands.command()
     @commands.has_permissions(administrator = True)
     async def unload(self, ctx, name: str):
+        eEmbed = discord.Embed(
+            title="Can't unload",
+            description=f"**{name}** contains important functionality!",
+            colour=discord.Colour.red()
+        )
+        eEmbed.set_author(
+            name="Error",
+            icon_url="https://i.ibb.co/Sw0pYmS/cross-icon-29.png" #image: Icon-library.com
+        )
+        
+        sEmbed = discord.Embed(
+            title="Unloaded",
+            description=f"**{name}** was unloaded",
+            colour=discord.Colour.green()
+        )
+        sEmbed.set_author(
+            name="Success",
+            icon_url="https://i.ibb.co/JCJzkh2/iconfinder-checkmark-24-103184.png" #image: Iconfinder.com
+        )
+        
+        if(name in ['admin']):
+            await ctx.send(embed=eEmbed)
+            return
         self.bot.unload_extension(f"cogs.{name}")
-        await ctx.send(f"Unloaded extension **{name}.py**")
+        await ctx.send(embed=sEmbed)
 
 def setup(bot):
     bot.add_cog(Admin(bot))
