@@ -20,7 +20,7 @@ def get_prefix(client, message):
     return prefixes[str(message.guild.id)]
 
 
-bot = commands.Bot(command_prefix = get_prefix,help_command=None,case_insensitive=True)
+bot = commands.Bot(command_prefix = get_prefix,case_insensitive=True)
 bot.config_token = token_file['token']
 
 logging.basicConfig(level=logging.INFO) #FOR DEBUGGING PURPOSES ONLY - COMMENT OUT IF YOU NEED CLEAN OUTPUT

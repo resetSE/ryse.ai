@@ -1,10 +1,9 @@
 import discord
 from discord import Embed
 from discord.ext import commands
-from discord.utils import get
 import json
 import os
-
+import platform
 
 cwd = os.getcwd()
 
@@ -13,207 +12,41 @@ class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
-
-    @commands.command(aliases=['c'])
-    @commands.has_permissions(manage_messages = True)
-    async def clear(self, ctx, amount = 5):
-            await ctx.channel.purge(limit = amount + 1)
-            channel = ctx.channel
-            guild = ctx.guild
-            print(f"\n{amount} messages were cleared in channel '{channel}', server '{guild}'\n")
-
-    @commands.command(aliases=['k'])
-    @commands.has_permissions(kick_members = True)
-    async def kick(self, ctx, member : discord.Member, *, reason=None):
-        guild = ctx.guild
+        bot.version = "0.6.9"
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("admin loaded\n")
         
-        sEmbed = discord.Embed(
-            title="Kicked", 
-            description=f"{member} was kicked ", 
-            colour=discord.Colour.light_gray()
-        )
-        sEmbed.add_field(
-            name="Reason: ", 
-            value=reason, 
-            inline=False
-        )
-        sEmbed.set_author(
-            name=".kick",
-            icon_url="https://i.ibb.co/TR2hdDW/kick.png" #image: Flaticon.com
-        )
-
-        dEmbed = discord.Embed(
-            title="Kicked", 
-            description=f"You were kicked from {guild.name}", 
-            colour=discord.Colour.light_gray()
-        )
-        dEmbed.add_field(
-            name="Reason: ", 
-            value=reason, 
-            inline=False
-        )
-        dEmbed.set_author(
-            name=".kick",
-            icon_url="https://i.ibb.co/TR2hdDW/kick.png" #image: Flaticon.com
-        )
-        await member.send(embed=dEmbed)
-        await member.kick(reason=reason)
-        await ctx.send(embed=sEmbed)
-        print(f"\n{member} was kicked from '{guild.name}' for reason: '{reason}'\n")
-
-    @commands.command(aliases=['b'])
-    @commands.has_permissions(ban_members = True)
-    async def ban(self, ctx, member : discord.Member, *, reason=None):
-        guild = ctx.guild
-        
-        sEmbed = discord.Embed(
-            title="Banned", 
-            description=f"{member} was banned ", 
-            colour=discord.Colour.default()
-        )
-        sEmbed.add_field(
-            name="Reason: ", 
-            value=reason, 
-            inline=False
-        )
-        sEmbed.set_author(
-            name=".ban",
-            icon_url="https://i.ibb.co/qp9dX8R/Nice-Png-judge-png-2240287.png" #image: Nicepng.com
-        )
-
-        dEmbed = discord.Embed(
-            title="Banned", 
-            description=f"You were banned from {guild.name}", 
-            colour=discord.Colour.default()
-        )
-        dEmbed.add_field(
-            name="Reason: ", 
-            value=reason, 
-            inline=False
-        )
-        dEmbed.set_author(
-            name=".ban",
-            icon_url="https://i.ibb.co/qp9dX8R/Nice-Png-judge-png-2240287.png" #image: Nicepng.com
-        )
-
-        
-        await ctx.send(embed=sEmbed)
-        await member.send(embed=dEmbed)
-        await member.ban(reason=reason)
-        print(f"\n{member} was banned from '{guild.name}' for reason: '{reason}'\n")
-
     @commands.command()
-    @commands.has_permissions(ban_members = True)
-    async def unban(self, ctx, *, member):
-        banned_users = await ctx.guild.bans()
-	
-        member_name, member_discriminator = member.split('#')
-        for ban_entry in banned_users:
-            user = ban_entry.user
-            if (user.name, user.discriminator) == (member_name, member_discriminator):
-                await ctx.guild.unban(user)
-                
-                sEmbed = discord.Embed(
-                    title="Unbanned",
-                    description=f"{user.mention} was unbanned",
-                    colour=discord.Colour.teal()
-                )
-                
-                sEmbed.add_field(
-                    name="Issuer: ",
-                    value=ctx.message.author
-                )
-                
-                sEmbed.set_author(
-                    name=".unban",
-                    icon_url="https://i.ibb.co/dcsrW13/iconfinder-undo-308948.png" #image: Iconfinder.com
-        )
-                await ctx.channel.send(embed=sEmbed)
-                print(f"\n{member} was unbanned from {ctx.guild.name}.\n")
-    @commands.command(aliases=['m'])
-    @commands.has_permissions(manage_messages = True)
-    async def mute(self, ctx, member : discord.Member, *, reason=None):
-        guild = ctx.guild
-        mutedRole = discord.utils.get(guild.roles, name="Muted")
+    async def stats(self, ctx):
+        """
+        Displays bot statistics.
+        """
+        pythonVersion = platform.python_version()
+        dpyVersion = discord.__version__
+        serverCount = len(self.bot.guilds)
+        #memberCount = len(set(self.bot.get_all_members()))
 
-        if not mutedRole:
-            mutedRole = await guild.create_role(name="Muted")
+        embed = discord.Embed(title=f'{self.bot.user.name} Stats', description='\uFEFF', colour=discord.Colour.red(), timestamp=ctx.message.created_at)
+
+        embed.add_field(name='Bot Version:', value=self.bot.version)
+        embed.add_field(name='Python Version:', value=pythonVersion)
+        embed.add_field(name='Discord.Py Version', value=dpyVersion)
+        embed.add_field(name='Total Guilds:', value=serverCount)
+        #embed.add_field(name='Total Users:', value=memberCount)
+        embed.add_field(name='Bot Developers:', value="<@815833086330667008>")
+
+        embed.set_footer(text=f"{self.bot.user.name}")
+        embed.set_author(name=self.bot.user.name, icon_url="https://cdn.discordapp.com/avatars/815833086330667008/446c182ff64ab5eac646c2bb534b3e58.png?size=128")
+
+        await ctx.send(embed=embed)
             
-            for channel in guild.channels:
-                await channel.set_permissions(mutedRole, speak=False, send_messages=False, read_message_history=True, read_messages=True)
-        
-        sEmbed = discord.Embed(
-            title="Muted", 
-            description=f"{member.mention} was muted ", 
-            colour=discord.Colour.teal()
-        )
-        sEmbed.add_field(
-            name="Reason: ", 
-            value=reason, 
-            inline=False
-        )
-        sEmbed.set_author(
-            name=".mute",
-            icon_url="https://i.ibb.co/7bV1JLF/Mute-Icon.png" #image: Tehdog, CC0, via commons.wikimedia.org
-        )
-
-        dEmbed = discord.Embed(
-            title="Muted", 
-            description=f"You were muted in {guild.name}", 
-            colour=discord.Colour.teal()
-        )
-        dEmbed.add_field(
-            name="Reason: ", 
-            value=reason, 
-            inline=False
-        )
-        dEmbed.set_author(
-            name=".mute",
-            icon_url="https://i.ibb.co/7bV1JLF/Mute-Icon.png" #image: Tehdog, CC0, via commons.wikimedia.org
-        )
-
-        await ctx.send(embed=sEmbed)
-        await member.add_roles(mutedRole, reason=reason)
-        await member.send(embed=dEmbed)
-        print(f"{member} has been muted in '{guild.name}' for reason: '{reason}'")
-
-
-    @commands.command(description="Unmutes a specified user.")
-    @commands.has_permissions(manage_messages=True)
-    async def unmute(self, ctx, member: discord.Member):
-        guild = ctx.guild
-        mutedRole = discord.utils.get(guild.roles, name="Muted")
-
-        await member.remove_roles(mutedRole)
-        
-        sEmbed = discord.Embed(
-            title="Unmuted", 
-            description=f"{member.mention} was unmuted ",
-            colour=discord.Colour.teal()
-        )
-        sEmbed.set_author(
-            name=".unmute",
-            icon_url="https://i.ibb.co/dcsrW13/iconfinder-undo-308948.png" #image: Iconfinder.com
-        )
-        
-        dEmbed = discord.Embed(
-            title="Unmuted",
-            description=f"You were unmuted in {guild.name}",
-            colour=discord.Colour.teal()
-        )
-        dEmbed.set_author(
-            name=".unmute",
-            icon_url="https://i.ibb.co/dcsrW13/iconfinder-undo-308948.png" #image: Iconfinder.com
-        )
-        
-        await ctx.send(embed=sEmbed)
-        await member.send(embed=dEmbed)
-        print(f"{member} has been unmuted in '{guild.name}'")
-
-
-
     @commands.command(aliases=['pref', 'pr'])
+    @commands.has_permissions(administrator = True)
     async def prefix(self, ctx, prefix):
+        """
+        Changes the bot's prefix on a per-server basis
+        """
         with open(cwd+'/config/prefixes.json', 'r') as f:
             prefixes = json.load(f)
         prefixes[str(ctx.guild.id)] = prefix
@@ -234,6 +67,9 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator = True)
     async def load(self, ctx, name: str):
+        """
+        Loads a cog.
+        """
         sEmbed = discord.Embed(
             title="Loaded",
             description=f"**{name}** was loaded",
@@ -249,6 +85,9 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator = True)
     async def unload(self, ctx, name: str):
+        """
+        Unloads a cog.
+        """
         eEmbed = discord.Embed(
             title="Can't unload",
             description=f"**{name}** contains important functionality!",
