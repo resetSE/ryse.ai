@@ -1,8 +1,8 @@
-import re
-import math
-import random
-import os
 import json
+import math
+import os
+import random
+import re
 
 import discord
 from discord import Embed

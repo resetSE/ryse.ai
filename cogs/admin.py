@@ -1,9 +1,10 @@
-import discord
-from discord import Embed
-from discord.ext import commands
 import json
 import os
 import platform
+
+import discord
+from discord import Embed
+from discord.ext import commands
 
 cwd = os.getcwd()
 

@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-
 #Code from MenuDocs' discord.py tutorial (https://github.com/MenuDocs/Discord.PY-Tutorials/blob/Episode-5/cogs/_json.py)
 
 
