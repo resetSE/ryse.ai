@@ -39,37 +39,91 @@ class Music(commands.Cog):
     @commands.command()
     async def play(self, ctx, *, query: str):
         tracks = await self.bot.wavelink.get_tracks(f'ytsearch:{query}')
+        
+        sEmbed = discord.Embed(
+            title="Added to queue", 
+            description=f'Added {str(tracks[0])} to the queue.',
+            colour=discord.Colour.teal()
+        )
+        sEmbed.set_author(
+            name=".play",
+            icon_url="https://i.ibb.co/VgsfXHB/iconfinder-music-172510.png" #image: Iconfinder.com
+        )
+
+        eEmbed = discord.Embed(
+            title="Error", 
+            description="Couldn't find any songs with that query",
+            colour=discord.Colour.red()
+        )
+        eEmbed.set_author(
+            name=".play",
+            icon_url="https://i.ibb.co/Sw0pYmS/cross-icon-29.png" #image: Icon-library.com
+        )
 
         if not tracks:
-            return await ctx.send('Could not find any songs with that query.')
+            return await ctx.send(embed=eEmbed)
 
         player = self.bot.wavelink.get_player(ctx.guild.id)
         if not player.is_connected:
             await player.stop()
             await ctx.invoke(self._connect)
 
-        await ctx.send(f'Added {str(tracks[0])} to the queue.')
+        await ctx.send(embed=sEmbed)
+        await player.set_volume(35)
         await player.play(tracks[0])
 
     @commands.command()
     async def stop(self, ctx):
         player = self.bot.wavelink.get_player(ctx.guild.id)
 
+        sEmbed = discord.Embed(
+            title="Stopped", 
+            description="Stopped playing music",
+            colour=discord.Colour.teal()
+        )
+        sEmbed.set_author(
+            name=".stop",
+            icon_url="https://i.ibb.co/VgsfXHB/iconfinder-music-172510.png" #image: Iconfinder.com
+        )
+
+
+        eEmbed = discord.Embed(
+            title="Error", 
+            description="Not playing anything",
+            colour=discord.Colour.red()
+        )
+        eEmbed.set_author(
+            name=".stop",
+            icon_url="https://i.ibb.co/Sw0pYmS/cross-icon-29.png" #image: Icon-library.com
+        )
+
         if player.is_playing:
             await player.stop()
             await player.disconnect()
-        
+            await ctx.send(embed=sEmbed)
         else:
-            await ctx.send("Not playing anything")
+            await ctx.send(embed=eEmbed)
 
     @commands.command()
     async def disconnect(self, ctx):
         player = self.bot.wavelink.get_player(ctx.guild.id)
-    
+
+        sEmbed = discord.Embed(
+            title="Error", 
+            description="Not in a channel",
+            colour=discord.Colour.teal()
+        )
+        sEmbed.set_author(
+            name=".stop",
+            icon_url="https://i.ibb.co/VgsfXHB/iconfinder-music-172510.png" #image: Iconfinder.com
+        )
+
+
         if player.is_connected:
             await player.stop()
             await player.disconnect()
         
-        else: await ctx.send("Not in a channel")
+        else: 
+            await ctx.send(embed=sEmbed)
 def setup(bot):
     bot.add_cog(Music(bot))

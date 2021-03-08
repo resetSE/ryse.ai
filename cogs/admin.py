@@ -1,6 +1,7 @@
 import json
 import os
 import platform
+import asyncio
 
 import discord
 from discord import Embed
@@ -115,5 +116,24 @@ class Admin(commands.Cog):
         self.bot.unload_extension(f"cogs.{name}")
         await ctx.send(embed=sEmbed)
 
+    @commands.command()
+    @commands.has_permissions(administrator = True)
+    async def reload(self, ctx, name: str):
+        """
+        Reloads a cog.
+        """
+        sEmbed = discord.Embed(
+            title="Reloaded",
+            description=f"**{name}** was reloaded",
+            colour=discord.Colour.green()
+        )
+        sEmbed.set_author(
+            name="Success",
+            icon_url="https://i.ibb.co/JCJzkh2/iconfinder-checkmark-24-103184.png" #image: Iconfinder.com
+        )
+        self.bot.unload_extension(f"cogs.{name}")
+        await asyncio.sleep(1)
+        self.bot.load_extension(f"cogs.{name}")
+        await ctx.send(embed=sEmbed)
 def setup(bot):
     bot.add_cog(Admin(bot))
