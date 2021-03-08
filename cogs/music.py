@@ -3,7 +3,6 @@ import wavelink
 from discord import Embed, utils
 from discord.ext import commands
 
-
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -46,7 +45,7 @@ class Music(commands.Cog):
             colour=discord.Colour.teal()
         )
         sEmbed.set_author(
-            name=".play",
+            name="play",
             icon_url="https://i.ibb.co/VgsfXHB/iconfinder-music-172510.png" #image: Iconfinder.com
         )
 
@@ -56,13 +55,13 @@ class Music(commands.Cog):
             colour=discord.Colour.red()
         )
         eEmbed.set_author(
-            name=".play",
+            name="play",
             icon_url="https://i.ibb.co/Sw0pYmS/cross-icon-29.png" #image: Icon-library.com
         )
 
         if not tracks:
-            return await ctx.send(embed=eEmbed)
-
+            await ctx.send(embed=eEmbed)
+#
         player = self.bot.wavelink.get_player(ctx.guild.id)
         if not player.is_connected:
             await player.stop()
@@ -71,6 +70,42 @@ class Music(commands.Cog):
         await ctx.send(embed=sEmbed)
         await player.set_volume(35)
         await player.play(tracks[0])
+
+
+    @commands.command()
+    async def play(self, ctx, *, query: str):
+        eEmbed = discord.Embed(
+            title="Error", 
+            description="Couldn't find any songs with that query",
+            colour=discord.Colour.red()
+        )
+        eEmbed.set_author(
+            name="play",
+            icon_url="https://i.ibb.co/Sw0pYmS/cross-icon-29.png" #image: Icon-library.com
+        )
+
+        tracks = await self.bot.wavelink.get_tracks(f'ytsearch:{query}')
+
+        if not tracks:
+            return await ctx.send(embed=eEmbed)
+
+        sEmbed = discord.Embed(
+            title="Added to queue", 
+            description=f'Added {str(tracks[0])} to the queue.',
+            colour=discord.Colour.teal()
+        )
+        sEmbed.set_author(
+            name="play",
+            icon_url="https://i.ibb.co/VgsfXHB/iconfinder-music-172510.png" #image: Iconfinder.com
+        )
+
+        player = self.bot.wavelink.get_player(ctx.guild.id)
+        if not player.is_connected:
+            await ctx.invoke(self._connect)
+
+        await ctx.send(embed=sEmbed)
+        await player.play(tracks[0])
+
 
     @commands.command()
     async def stop(self, ctx):
@@ -82,7 +117,7 @@ class Music(commands.Cog):
             colour=discord.Colour.teal()
         )
         sEmbed.set_author(
-            name=".stop",
+            name="stop",
             icon_url="https://i.ibb.co/VgsfXHB/iconfinder-music-172510.png" #image: Iconfinder.com
         )
 
@@ -93,7 +128,7 @@ class Music(commands.Cog):
             colour=discord.Colour.red()
         )
         eEmbed.set_author(
-            name=".stop",
+            name="stop",
             icon_url="https://i.ibb.co/Sw0pYmS/cross-icon-29.png" #image: Icon-library.com
         )
 
@@ -114,7 +149,7 @@ class Music(commands.Cog):
             colour=discord.Colour.teal()
         )
         sEmbed.set_author(
-            name=".stop",
+            name="stop",
             icon_url="https://i.ibb.co/VgsfXHB/iconfinder-music-172510.png" #image: Iconfinder.com
         )
 

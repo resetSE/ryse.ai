@@ -49,7 +49,7 @@ class Moderation(commands.Cog):
             inline=False
         )
         sEmbed.set_author(
-            name=".kick",
+            name="kick",
             icon_url="https://i.ibb.co/TR2hdDW/kick.png" #image: Flaticon.com
         )
 
@@ -64,7 +64,7 @@ class Moderation(commands.Cog):
             inline=False
         )
         dEmbed.set_author(
-            name=".kick",
+            name="kick",
             icon_url="https://i.ibb.co/TR2hdDW/kick.png" #image: Flaticon.com
         )
         await member.send(embed=dEmbed)
@@ -95,7 +95,7 @@ class Moderation(commands.Cog):
             inline=False
         )
         sEmbed.set_author(
-            name=".ban",
+            name="ban",
             icon_url="https://i.ibb.co/qp9dX8R/Nice-Png-judge-png-2240287.png" #image: Nicepng.com
         )
 
@@ -110,7 +110,7 @@ class Moderation(commands.Cog):
             inline=False
         )
         dEmbed.set_author(
-            name=".ban",
+            name="ban",
             icon_url="https://i.ibb.co/qp9dX8R/Nice-Png-judge-png-2240287.png" #image: Nicepng.com
         )
 
@@ -146,7 +146,7 @@ class Moderation(commands.Cog):
                 )
                 
                 sEmbed.set_author(
-                    name=".unban",
+                    name="unban",
                     icon_url="https://i.ibb.co/dcsrW13/iconfinder-undo-308948.png" #image: Iconfinder.com
         )
                 await ctx.channel.send(embed=sEmbed)
@@ -177,7 +177,7 @@ class Moderation(commands.Cog):
             inline=False
         )
         sEmbed.set_author(
-            name=".mute",
+            name="mute",
             icon_url="https://i.ibb.co/7bV1JLF/Mute-Icon.png" #image: Tehdog, CC0, via commons.wikimedia.org
         )
 
@@ -192,7 +192,7 @@ class Moderation(commands.Cog):
             inline=False
         )
         dEmbed.set_author(
-            name=".mute",
+            name="mute",
             icon_url="https://i.ibb.co/7bV1JLF/Mute-Icon.png" #image: Tehdog, CC0, via commons.wikimedia.org
         )
 
@@ -219,7 +219,7 @@ class Moderation(commands.Cog):
             colour=discord.Colour.teal()
         )
         sEmbed.set_author(
-            name=".unmute",
+            name="unmute",
             icon_url="https://i.ibb.co/dcsrW13/iconfinder-undo-308948.png" #image: Iconfinder.com
         )
         
@@ -229,7 +229,7 @@ class Moderation(commands.Cog):
             colour=discord.Colour.teal()
         )
         dEmbed.set_author(
-            name=".unmute",
+            name="unmute",
             icon_url="https://i.ibb.co/dcsrW13/iconfinder-undo-308948.png" #image: Iconfinder.com
         )
         
