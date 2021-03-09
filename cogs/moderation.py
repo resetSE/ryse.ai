@@ -11,13 +11,16 @@ cwd = os.getcwd()
 
 
 class Moderation(commands.Cog):
+    """
+    All your moderation needs
+    """
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print("moderation loaded\n")
+        print("Moderation loaded\n")
     
     @commands.command(aliases=['c'])
     @commands.has_permissions(manage_messages = True)

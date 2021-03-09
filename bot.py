@@ -7,13 +7,13 @@ import discord
 from discord import Embed
 from discord.ext import commands
 from discord.utils import get
+from pretty_help import PrettyHelp
 
 cwd = os.getcwd()
 print(f"Current directory: {cwd}")
 
 #etc_file = json.load(open(cwd+'/config/etc.json'))
 token_file = json.load(open(cwd+'/config/token.json'))
-
 
 def get_prefix(client, message):
     with open(cwd+'/config/prefixes.json') as f:
@@ -23,7 +23,7 @@ def get_prefix(client, message):
 intents = discord.Intents.default()
 intents.members = True
 
-bot = commands.Bot(command_prefix = get_prefix,case_insensitive=True, intents = intents)
+bot = commands.Bot(command_prefix = get_prefix, case_insensitive=True, intents = intents, help_command=PrettyHelp())
 bot.config_token = token_file['token']
 
 
@@ -64,8 +64,6 @@ async def on_guild_remove(guild):
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         await ctx.send("No permission!")
-        
-        
 
 
 bot.run(bot.config_token, reconnect=True)
